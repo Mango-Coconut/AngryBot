@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Cinemachine;
+using Photon.Pun;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +16,8 @@ public class Movement : MonoBehaviour
     Plane plane;
     Ray ray;
     Vector3 hitpoint;
+    PhotonView pv;
+    CinemachineVirtualCamera virtualCamera;
     public float moveSpeed = 10f;
     // Start is called before the first frame update
     void Start()
@@ -21,14 +26,25 @@ public class Movement : MonoBehaviour
         transform = GetComponent<Transform>();
         animator = GetComponent<Animator>();
         camera = Camera.main;
+        pv = GetComponent<PhotonView>();
+        virtualCamera = GameObject.FindAnyObjectByType<CinemachineVirtualCamera>();
+        if (pv.IsMine)
+        {
+            virtualCamera.Follow = transform;
+            virtualCamera.LookAt = transform;
+        }
+
         plane = new Plane(transform.up, transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
-        Turn();
+        if (pv.IsMine)
+        {
+            Move();
+            Turn();
+        }
     }
 
     float h => Input.GetAxis("Horizontal");
@@ -47,7 +63,7 @@ public class Movement : MonoBehaviour
         animator.SetFloat("Forward", forward);
         animator.SetFloat("Strafe", strafe);
     }
-    
+
     void Turn()
     {
         ray = camera.ScreenPointToRay(Input.mousePosition);
