@@ -9,7 +9,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // 게임의 버전
     readonly string version = "1.0";
     // 유저 닉네임
-    string userId = "Zinine";
+    string userId = "Zinine2";
 
     void Awake()
     {
