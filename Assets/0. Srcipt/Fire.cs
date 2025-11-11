@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using UnityEditor.VisionOS;
 using UnityEngine;
 
 public class Fire : MonoBehaviour
