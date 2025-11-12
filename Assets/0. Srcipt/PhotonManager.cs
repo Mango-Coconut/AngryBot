@@ -16,6 +16,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public TMP_InputField userInputField;
     public TMP_InputField roomInputField;
 
+    Dictionary<string, GameObject> rooms = new Dictionary<string, GameObject>();
+    [SerializeField] GameObject roomItemPrefab;
+
     void Awake()
     {
         // 마스터 클라이언트의 씬 자동 동기화 옵션
@@ -28,6 +31,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.SendRate);
         // 포톤 서버 접속
         PhotonNetwork.ConnectUsingSettings();
+
     }
     void Start()
     {
@@ -110,6 +114,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LoadLevel("BattleField");
         }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        
     }
 
     #region UI BUTTON EVENT
